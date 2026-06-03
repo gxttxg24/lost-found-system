@@ -2,8 +2,8 @@ from flask import Blueprint, request, current_app, send_from_directory
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import os
 from werkzeug.utils import secure_filename
-from ..db import get_db_connection
-from ..utils.response import success, fail
+from db import get_db_connection
+from utils.response import success, fail
 
 bp = Blueprint('items', __name__, url_prefix='/api/items')
 
