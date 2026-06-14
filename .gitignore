@@ -1,15 +1,22 @@
+
+# frontend
 frontend/node_modules/
 frontend/dist/
 
+# backend
 backend/venv/
-backend/uploads/
 backend/__pycache__/
+backend/uploads/
 *.pyc
 
+# env
 .env
 *.env
 
+# system
 .DS_Store
 Thumbs.db
+
+# IDE
 .vscode/
 .idea/
