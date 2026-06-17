@@ -1,6 +1,5 @@
-CREATE DATABASE IF NOT EXISTS lost_found_system
-DEFAULT CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+
+CREATE DATABASE IF NOT EXISTS lost_found_system DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE lost_found_system;
 
@@ -17,8 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('user', 'admin') DEFAULT 'user',
     status ENUM('normal', 'banned') DEFAULT 'normal',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -46,14 +44,9 @@ CREATE TABLE IF NOT EXISTS items (
     contact_info VARCHAR(100),
     view_count INT DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_items_user
-        FOREIGN KEY (user_id) REFERENCES users(id),
-
-    CONSTRAINT fk_items_category
-        FOREIGN KEY (category_id) REFERENCES categories(id)
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_items_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_items_category FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 -- ============================================
@@ -64,10 +57,7 @@ CREATE TABLE IF NOT EXISTS item_images (
     item_id INT NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_item_images_item
-        FOREIGN KEY (item_id) REFERENCES items(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_item_images_item FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -80,15 +70,9 @@ CREATE TABLE IF NOT EXISTS matches (
     similarity_score DECIMAL(5, 2) NOT NULL,
     match_reason VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_matches_lost_item
-        FOREIGN KEY (lost_item_id) REFERENCES items(id),
-
-    CONSTRAINT fk_matches_found_item
-        FOREIGN KEY (found_item_id) REFERENCES items(id),
-
-    CONSTRAINT uq_matches_item_pair
-        UNIQUE (lost_item_id, found_item_id)
+    CONSTRAINT fk_matches_lost_item FOREIGN KEY (lost_item_id) REFERENCES items(id),
+    CONSTRAINT fk_matches_found_item FOREIGN KEY (found_item_id) REFERENCES items(id),
+    CONSTRAINT uq_matches_item_pair UNIQUE (lost_item_id, found_item_id)
 );
 
 -- ============================================
@@ -101,21 +85,13 @@ CREATE TABLE IF NOT EXISTS claim_requests (
     owner_id INT NOT NULL,
     description TEXT,
     proof_text TEXT,
-    status ENUM('pending', 'approved', 'rejected', 'cancelled')
-        DEFAULT 'pending',
+    status ENUM('pending', 'approved', 'rejected', 'cancelled') DEFAULT 'pending',
     review_comment TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_claims_item
-        FOREIGN KEY (item_id) REFERENCES items(id),
-
-    CONSTRAINT fk_claims_applicant
-        FOREIGN KEY (applicant_id) REFERENCES users(id),
-
-    CONSTRAINT fk_claims_owner
-        FOREIGN KEY (owner_id) REFERENCES users(id)
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_claims_item FOREIGN KEY (item_id) REFERENCES items(id),
+    CONSTRAINT fk_claims_applicant FOREIGN KEY (applicant_id) REFERENCES users(id),
+    CONSTRAINT fk_claims_owner FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
 -- ============================================
@@ -128,43 +104,22 @@ CREATE TABLE IF NOT EXISTS notifications (
     content TEXT,
     is_read BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_notifications_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- ============================================
 -- 8. 常用查询索引
 -- ============================================
-CREATE INDEX idx_items_type
-    ON items(type);
-
-CREATE INDEX idx_items_category
-    ON items(category_id);
-
-CREATE INDEX idx_items_status
-    ON items(status);
-
-CREATE INDEX idx_items_location
-    ON items(location);
-
-CREATE INDEX idx_items_created_at
-    ON items(created_at);
-
-CREATE INDEX idx_claims_applicant
-    ON claim_requests(applicant_id);
-
-CREATE INDEX idx_claims_owner
-    ON claim_requests(owner_id);
-
-CREATE INDEX idx_claims_status
-    ON claim_requests(status);
-
-CREATE INDEX idx_matches_lost_item
-    ON matches(lost_item_id);
-
-CREATE INDEX idx_matches_found_item
-    ON matches(found_item_id);
+CREATE INDEX idx_items_type ON items(type);
+CREATE INDEX idx_items_category ON items(category_id);
+CREATE INDEX idx_items_status ON items(status);
+CREATE INDEX idx_items_location ON items(location);
+CREATE INDEX idx_items_created_at ON items(created_at);
+CREATE INDEX idx_claims_applicant ON claim_requests(applicant_id);
+CREATE INDEX idx_claims_owner ON claim_requests(owner_id);
+CREATE INDEX idx_claims_status ON claim_requests(status);
+CREATE INDEX idx_matches_lost_item ON matches(lost_item_id);
+CREATE INDEX idx_matches_found_item ON matches(found_item_id);
 
 -- ============================================
 -- 9. 初始化分类数据
@@ -176,3 +131,4 @@ INSERT IGNORE INTO categories (name, description) VALUES
 ('生活用品', '水杯、雨伞、钥匙等'),
 ('衣物饰品', '衣服、帽子、手链等'),
 ('其他', '其他类型物品');
+
