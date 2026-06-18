@@ -1,101 +1,130 @@
+# 校园失物招领系统
 
-# 校园失物招领系统 Lost Found System
+数据库课程大作业。一个面向校园用户的失物招领平台，支持失物/招领信息发布、关键词搜索、智能相似度匹配、认领申请与审核、消息通知等完整业务流程。
 
-本项目是数据库课程大作业，目标是实现一个基于数据库的校园失物招领管理系统。系统支持用户注册登录、失物/招领信息发布、搜索筛选、智能匹配推荐、认领申请与审核等功能。
+## 技术栈
 
-## 模块分工
+| 层次 | 技术 |
+|------|------|
+| 前端 | React 18 + Vite 5 + React Router DOM v6 + Axios |
+| 后端 | Python Flask 3 + Flask-JWT-Extended + Flask-CORS + PyMySQL |
+| 数据库 | MySQL 8.0 |
+| 智能匹配 | jieba 中文分词 + scikit-learn TF-IDF 余弦相似度 |
+| 认证 | JWT Token（存储于 localStorage） |
 
-- **用户认证模块**: 负责用户注册、登录、JWT认证、个人信息管理（见 `AUTH_README.md`）
-- **信息发布管理模块**: 发布失物/招领信息、编辑信息、删除信息、查看详情
-- **搜索与智能匹配模块**: 关键词搜索、分类筛选、智能匹配、相似度计算
-- **认领与审核模块**: 发起认领申请、查看申请、审核申请、通知消息
-
-## 一、项目技术栈
-
-### 前端
-- React + Vite
-- Axios
-- React Router DOM
-
-### 后端
-- Python Flask
-- Flask-CORS
-- PyMySQL
-- Flask-JWT-Extended
-- Werkzeug
-- jieba
-- scikit-learn
-
-### 数据库
-- MySQL 8.0
-
-### 登录认证
-- JWT Token
-
-## 二、项目目录结构
+## 目录结构
 
 ```
 lost-found-system/
-├── frontend/              # 前端项目 React + Vite
-│   ├── src/
-│   │   ├── api/          # 前端接口请求文件
-│   │   │   ├── request.js
-│   │   │   └── auth.js
-│   │   ├── pages/        # 页面文件
-│   │   │   ├── Login.jsx
-│   │   │   └── Register.jsx
-│   │   ├── App.jsx
-│   │   └── main.jsx
+├── backend/                    # Flask 后端
+│   ├── app.py                  # 应用入口，Blueprint 注册，CORS，错误处理
+│   ├── config.py               # 数据库连接配置
+│   ├── db.py                   # 数据库工具函数
+│   ├── requirements.txt        # Python 依赖
+│   ├── routes/
+│   │   ├── auth.py             # 用户认证（注册/登录/个人信息）
+│   │   ├── items.py            # 物品信息 CRUD + 图片上传
+│   │   ├── search.py           # 关键词搜索 + 分类筛选
+│   │   ├── matches.py          # 智能匹配（TF-IDF）
+│   │   ├── claims.py           # 认领申请与审核
+│   │   └── notifications.py    # 消息通知
+│   ├── utils/
+│   │   ├── response.py         # 统一响应格式 success() / fail()
+│   │   └── match.py            # 智能匹配算法
+│   ├── sql/
+│   │   └── init.sql            # 数据库建表脚本（含初始分类数据）
+│   └── uploads/                # 图片上传目录（运行后自动创建）
+│
+├── frontend/                   # React 前端
+│   ├── index.html
+│   ├── vite.config.js
 │   ├── package.json
-│   └── vite.config.js
-├── backend/              # 后端项目 Flask
-│   ├── app.py            # 后端入口文件
-│   ├── config.py         # 数据库配置文件
-│   ├── db.py             # 数据库连接工具
-│   ├── requirements.txt  # 后端依赖列表
-│   ├── routes/           # 后端接口模块
-│   │   └── auth.py       # 认证路由
-│   ├── utils/            # 工具函数
-│   │   └── response.py
-│   ├── uploads/          # 图片上传目录
-│   └── sql/
-│       └── init.sql      # 数据库建表脚本
-├── AUTH_README.md        # 用户认证模块详细文档
-└── readme.md
+│   └── src/
+│       ├── main.jsx
+│       ├── App.jsx             # 路由配置
+│       ├── index.css           # 全局样式（badge、按钮、alert 等公共类）
+│       ├── api/
+│       │   ├── request.js      # Axios 实例（自动附加 token，401/422 自动登出）
+│       │   ├── auth.js
+│       │   ├── items.js
+│       │   ├── search.js
+│       │   ├── matches.js
+│       │   └── claims.js
+│       ├── components/
+│       │   ├── Navbar.jsx      # 顶部导航（含未读通知角标）
+│       │   └── SearchBar.jsx   # 搜索框组件
+│       └── pages/
+│           ├── Home.jsx        # 首页（最新失物/招领 + 使用指南）
+│           ├── Login.jsx
+│           ├── Register.jsx
+│           ├── Profile.jsx     # 个人中心（改资料/改密码）
+│           ├── Search.jsx      # 搜索结果页（分类侧边栏 + 分页）
+│           ├── ItemCreate.jsx  # 发布信息
+│           ├── ItemDetail.jsx  # 物品详情（含认领弹窗）
+│           ├── MatchResult.jsx # 智能匹配结果
+│           ├── MyClaims.jsx    # 我的认领申请
+│           ├── ReviewClaims.jsx# 审核他人申请
+│           └── Notifications.jsx # 消息通知
+│
+├── auth/                       # 原用户认证模块分支代码（参考用）
+├── claim/                      # 原认领模块分支代码（参考用）
+├── search/                     # 原搜索模块分支代码（参考用）
+├── info/                       # 原信息发布模块分支代码（参考用）
+└── design.md                   # 系统设计文档
 ```
 
-## 三、环境配置
+## 数据库设计
 
-### MySQL 安装
+共 7 张表：
 
-1. 下载并安装 MySQL 8.0
-2. 设置 root 密码
-3. 确保 MySQL 服务已启动
+| 表名 | 说明 |
+|------|------|
+| `users` | 用户（id, username, password_hash, phone, email, role, status） |
+| `categories` | 物品分类（证件/电子产品/书籍/生活用品/衣物饰品/其他） |
+| `items` | 失物/招领信息（type: lost/found，status: open/matching/claimed/closed） |
+| `item_images` | 物品图片（支持多图，存相对路径） |
+| `matches` | 智能匹配结果（lost_item_id, found_item_id, similarity_score） |
+| `claim_requests` | 认领申请（status: pending/approved/rejected/cancelled） |
+| `notifications` | 消息通知（认领提交/审核结果/匹配提醒） |
 
-### 初始化数据库
+## 快速开始
 
-使用 MySQL Workbench 或命令行执行 `backend/sql/init.sql`
+### 1. 初始化数据库
 
-### 后端配置
+```bash
+mysql -u root -p < backend/sql/init.sql
+```
 
-修改 `backend/config.py` 中的数据库密码为你自己的密码。
+或在 MySQL Workbench / Navicat 中直接执行 `backend/sql/init.sql`。
 
-## 四、启动项目
+### 2. 配置数据库连接
 
-### 启动后端
+编辑 `backend/config.py`，修改为你的 MySQL 密码：
+
+```python
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "你的密码",   # 修改这里
+    "database": "lost_found_system",
+    "charset": "utf8mb4"
+}
+```
+
+### 3. 启动后端
 
 ```bash
 cd backend
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
 python app.py
 ```
 
-后端运行在: http://localhost:5000
+后端运行于 http://localhost:5000
 
-### 启动前端
+> 如果 pip 较慢，可使用清华源：
+> `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`
+
+### 4. 启动前端
 
 ```bash
 cd frontend
@@ -103,33 +132,86 @@ npm install
 npm run dev
 ```
 
-前端运行在: http://localhost:5173
+前端运行于 http://localhost:5173
 
-## 五、用户认证模块
+> 如果 npm 较慢：
+> `npm install --registry https://registry.npmmirror.com`
 
-详细文档请查看 [AUTH_README.md](./AUTH_README.md)
+## API 接口概览
 
-### 主要功能
+所有接口返回统一格式：
 
-- 用户注册
-- 用户登录
-- 获取当前用户信息
-- 更新个人信息
-- 修改密码
-- 用户登出
+```json
+{ "code": 200, "message": "success", "data": { ... } }
+```
 
-### 主要API
+需要登录的接口须在请求头携带：`Authorization: Bearer <token>`
 
-- `POST /api/auth/register` - 注册
-- `POST /api/auth/login` - 登录
-- `GET /api/auth/me` - 获取当前用户
-- `PUT /api/auth/profile` - 更新个人信息
-- `PUT /api/auth/password` - 修改密码
+### 用户认证 `/api/auth`
 
-## 六、开发说明
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| POST | `/register` | 注册 | 否 |
+| POST | `/login` | 登录 | 否 |
+| GET | `/me` | 获取当前用户信息 | 是 |
+| PUT | `/profile` | 更新手机号/邮箱 | 是 |
+| PUT | `/password` | 修改密码 | 是 |
+| POST | `/logout` | 登出 | 是 |
 
-- 所有后端API返回统一格式：`{code, message, data}`
-- 需要认证的API需要在请求头添加：`Authorization: Bearer &lt;token&gt;`
-- Token 存储在前端 localStorage 中
-- 数据库字符集使用 utf8mb4
+### 物品信息 `/api/items`
 
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| GET | `/` | 获取物品列表（支持 type/status/category_id 筛选） | 否 |
+| POST | `/` | 发布物品信息 | 是 |
+| GET | `/mine` | 获取我发布的物品 | 是 |
+| GET | `/<id>` | 获取物品详情 | 否 |
+| PUT | `/<id>` | 更新物品信息 | 是 |
+| DELETE | `/<id>` | 删除物品 | 是 |
+| POST | `/<id>/images` | 上传物品图片 | 是 |
+
+### 搜索 `/api/search`
+
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| GET | `/items` | 关键词搜索（支持全文检索/LIKE回退，TF-IDF重排） | 否 |
+| GET | `/categories` | 获取所有分类 | 否 |
+
+### 智能匹配 `/api/matches`
+
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| GET | `/item/<id>` | 获取物品的匹配结果（无结果时自动计算） | 否 |
+| POST | `/trigger/<id>` | 手动触发重新匹配 | 是 |
+| GET | `/my` | 我的物品匹配摘要 | 是 |
+
+匹配算法综合评分：`0.6×文本相似度 + 0.2×分类匹配 + 0.1×地点相似度 + 0.1×时间接近度`
+
+### 认领申请 `/api/claims`
+
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| POST | `/` | 提交认领申请 | 是 |
+| GET | `/mine` | 我提交的申请 | 是 |
+| GET | `/item/<id>` | 某物品收到的所有申请（仅物主） | 是 |
+| POST | `/<id>/review` | 审核申请（action: approve/reject） | 是 |
+| POST | `/<id>/cancel` | 取消申请（仅申请人） | 是 |
+
+### 消息通知 `/api/notifications`
+
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| GET | `/` | 获取通知列表 | 是 |
+| GET | `/unread-count` | 获取未读数量 | 是 |
+| PUT | `/<id>/read` | 标记单条已读 | 是 |
+| PUT | `/read-all` | 全部标记已读 | 是 |
+| DELETE | `/<id>` | 删除通知 | 是 |
+
+## 模块分工
+
+| 模块 | 负责内容 |
+|------|---------|
+| 用户认证（auth） | 注册、登录、JWT 认证、个人信息管理 |
+| 信息发布（info） | 失物/招领发布、编辑、删除、图片上传 |
+| 搜索与匹配（search） | 关键词搜索、分类筛选、TF-IDF 智能匹配 |
+| 认领与通知（claim） | 认领申请、审核流程、消息通知 |

@@ -1,0 +1,85 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #1d4ed8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: .5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.navbar-links a,
+.navbar-links button {
+  color: rgba(255, 255, 255, .85);
+  text-decoration: none;
+  font-size: .9rem;
+  transition: color .15s;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active,
+.navbar-links button:hover {
+  color: #fff;
+}
+
+.navbar-btn {
+  background: rgba(255,255,255,.15) !important;
+  color: #fff !important;
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+}
+
+.navbar-btn:hover {
+  background: rgba(255,255,255,.25) !important;
+}
+
+.navbar-logout {
+  color: rgba(255,255,255,.7) !important;
+  font-size: .85rem !important;
+  cursor: pointer;
+}
+
+.notif-badge {
+  display: inline-block;
+  background: #ef4444;
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: 0 5px;
+  border-radius: 999px;
+  margin-left: 4px;
+  vertical-align: middle;
+  line-height: 1.5;
+}

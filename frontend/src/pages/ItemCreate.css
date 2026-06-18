@@ -1,0 +1,98 @@
+.create-page {
+  min-height: calc(100vh - 56px);
+  background: #f1f5f9;
+  padding: 32px 16px 60px;
+}
+
+.create-card {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.07);
+}
+
+.create-card h2 {
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-row {}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label span {
+  font-size: .85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.form-label input,
+.form-label select,
+.form-label textarea {
+  padding: 10px 13px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: .93rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-label input:focus,
+.form-label select:focus,
+.form-label textarea:focus {
+  border-color: #3b82f6;
+}
+
+.form-label textarea { resize: vertical; }
+
+.form-label input[type="file"] {
+  padding: 6px;
+  border-style: dashed;
+}
+
+.type-radio {
+  display: flex;
+  gap: 24px;
+}
+
+.type-radio label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .93rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.file-hint {
+  font-size: .82rem;
+  color: #64748b;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}

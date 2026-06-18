@@ -1,0 +1,143 @@
+.claims-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 16px 60px;
+  min-height: calc(100vh - 56px);
+}
+
+.claims-loading {
+  text-align: center;
+  padding: 80px;
+  color: #94a3b8;
+}
+
+.claims-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.claims-header h1 { font-size: 1.4rem; color: #1e293b; }
+
+.claims-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.claims-empty-hint { font-size: .85rem; }
+
+.claims-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.claim-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  border-left: 4px solid #e2e8f0;
+}
+
+.claim-card.status-pending  { border-left-color: #f59e0b; }
+.claim-card.status-approved { border-left-color: #22c55e; }
+.claim-card.status-rejected { border-left-color: #ef4444; }
+.claim-card.status-cancelled { border-left-color: #94a3b8; }
+
+.claim-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 12px;
+}
+
+.claim-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.claim-item-title:hover { text-decoration: underline; }
+
+.claim-time { font-size: .8rem; color: #94a3b8; }
+
+.claim-details {
+  font-size: .88rem;
+  color: #374151;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 7px;
+}
+
+.claim-details p { margin: 3px 0; }
+
+.reject-reason { color: #dc2626 !important; }
+
+.claim-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.approved-hint { font-size: .83rem; color: #16a34a; }
+
+button.sm { padding: 5px 14px !important; font-size: .85rem !important; }
+
+/* Reuse modal from ItemDetail.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+}
+
+.modal-box h3 { font-size: 1.1rem; color: #1e293b; margin-bottom: 20px; }
+
+.modal-box label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.modal-box span { font-size: .82rem; color: #64748b; font-weight: 600; }
+
+.modal-box textarea {
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  font-size: .93rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+}
+
+.modal-box textarea:focus { border-color: #3b82f6; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 16px; }

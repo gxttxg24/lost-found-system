@@ -1,0 +1,122 @@
+.profile-page {
+  min-height: calc(100vh - 56px);
+  background: #f1f5f9;
+  padding: 32px 16px 60px;
+}
+
+.profile-loading {
+  text-align: center;
+  padding: 80px;
+  color: #94a3b8;
+}
+
+.profile-card {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-header {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-header h2 { font-size: 1.3rem; color: #1e293b; margin-bottom: 4px; }
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+.role-user  { background: #eff6ff; color: #2563eb; }
+.role-admin { background: #fef3c7; color: #d97706; }
+
+.profile-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+}
+
+.section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profile-section h3 {
+  font-size: 1rem;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.section-title-row h3 { margin-bottom: 0; }
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.info-grid span { font-size: .78rem; color: #64748b; font-weight: 600; display: block; margin-bottom: 3px; }
+.info-grid p    { font-size: .93rem; color: #374151; }
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile-form span {
+  font-size: .82rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.profile-form input {
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  font-size: .93rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .15s;
+}
+
+.profile-form input:focus { border-color: #3b82f6; }
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
