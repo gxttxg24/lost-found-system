@@ -97,6 +97,18 @@ mysql -u root -p < backend/sql/init.sql
 
 或在 MySQL Workbench / Navicat 中直接执行 `backend/sql/init.sql`。
 
+> ⚠️ **Windows 用户注意**：cmd / PowerShell 的编码为 GBK，通过 `mysql < init.sql` 管道执行会导致中文乱码。
+> **建议用以下方式之一导入**：
+> ```bash
+> # 方式一：登录 MySQL 后用 source 命令
+> mysql -u root -p
+> mysql> source backend/sql/init.sql;
+>
+> # 方式二：用 Python 脚本执行 SQL 文件
+> cd backend
+> python -c "from db import get_db_connection; conn = get_db_connection(); c = conn.cursor(); script = open('sql/init.sql', 'r', encoding='utf-8').read(); [c.execute(s) for s in script.split(';') if s.strip() and not s.strip().startswith('--')]; conn.commit(); c.close(); conn.close(); print('数据库初始化完成')"
+> ```
+
 ### 2. 配置数据库连接
 
 编辑 `backend/config.py`，修改为你的 MySQL 密码：
